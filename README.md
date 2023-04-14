@@ -7,12 +7,12 @@ generator client {
 
 datasource mysql {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("MYSQL_DATABASE_URL")
 }
 
 datasource postgresql {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("POSTGRESQL_DATABASE_URL")
 }
 
 datasource sqlite {
