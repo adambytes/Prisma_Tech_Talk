@@ -1,10 +1,32 @@
-Express.js Template
-This is a simple Express.js template that can be used as a starting point for creating web applications with Node.js and Express.
+# My Prisma Schema
 
-Features
-Provides a basic Express.js setup with routing and middleware support.
-Uses EJS as the template engine.
-Includes a simple test suite using Mocha and Chai.
+```prisma
+generator client {
+  provider = "prisma-client-js"
+}
 
-License
-This project is licensed under the MIT License. See the LICENSE file for more information.
+datasource mysql {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+datasource postgresql {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+datasource sqlite {
+  provider = "sqlite"
+  url      = file(../database/dev.db)
+}
+
+model Movie {
+  id      Int     @id @default(autoincrement())
+  title   String
+  rating  Int
+  watched Boolean @default(false)
+
+  @@index([title])
+}
+
+```
