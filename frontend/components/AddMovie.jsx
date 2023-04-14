@@ -38,7 +38,7 @@ const AddMovie = () => {
       response = await axios.post('/api/movie', addMovieData);
       const movies = getMovies();
       setMovieList(movies);
-      console.log(`handleAddMovie: ${response}`);
+      // console.log(`handleAddMovie: ${response}`);
     }
     catch(err) {
       console.log(err);
