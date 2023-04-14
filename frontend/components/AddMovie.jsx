@@ -1,6 +1,6 @@
 import MovieList from "./MovieList";
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const getMovies = async () => {
   try {
@@ -15,6 +15,14 @@ const getMovies = async () => {
 const AddMovie = () => {
   const [movieList, setMovieList] = useState([]);
 
+  useEffect(() => {
+    const getMovieList = async () => {
+      const movies = await getMovies();
+      setMovieList(movies);
+    }
+    getMovieList();
+  });
+
 
   const handleAddMovie = async (e) => {
     e.preventDefault();
@@ -23,20 +31,19 @@ const AddMovie = () => {
     // Send data to server
     const addMovieData = {
       title: movie.get('title'),
-      rating: movie.get('rating'),
+      rating: Number(movie.get('rating')),
     }
+    let response;
     try {
-      const response = await axios.post('/api/movie', addMovieData);
-      const data = response.data;
+      response = await axios.post('/api/movie', addMovieData);
+      const movies = getMovies();
+      setMovieList(movies);
+      console.log(`handleAddMovie: ${response}`);
     }
     catch(err) {
       console.log(err);
     }
     // if successful, retrieve new movie list
-    if(data.status === 200) {
-      const movies = await getMovies();
-      setMovieList(movies);
-    }
   
     e.target.reset();
   }

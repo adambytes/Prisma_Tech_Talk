@@ -24,15 +24,15 @@ app.get('/api/movie', async function(req, res) {
   return res.status(200).json(movies);
 });
 
-app.post('/api/movie', async function(req, res, next) {
-  if(!req.body.title || !req.body.rating) {
-    res.status(400).send('Missing title or rating');
-    return next({
-      status: 400,
-      message: 'Missing title or rating'
-    });
-  }
-  // create a new movie
+app.post('/api/movie', async (req, res, next) => {
+  // if(!req.body.title || !req.body.rating) {
+  //   res.status(400).send('Missing title or rating');
+  //   return next({
+  //     status: 400,
+  //     message: 'Missing title or rating'
+  //   });
+  // }
+  // // create a new movie
   let movie;
   try{
     movie = await prisma.movie.create({
@@ -46,14 +46,14 @@ app.post('/api/movie', async function(req, res, next) {
     next(err);
   }
 
-  movie !== null ? res.status(200).json(movie) : res.status(400).send('Movie not created');
+  return res.send(movie)
 });
 
 app.patch('/api/movie/:id', async function(req, res) {
   // update a movie
   let movie;
   try{
-     movie = await prisma.movie.update({
+    movie = await prisma.movie.update({
       where: {
         id: parseInt(req.params.id),
       },
@@ -91,7 +91,6 @@ app.delete('/api/movie/:id', async function(req, res) {
 
 // error handling
 app.use((err, req, res, next) => {
-  // console.log(`Error: ${err}`);
   const template = {
     status: 500,
     message: 'Internal Server Error',

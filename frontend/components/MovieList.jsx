@@ -6,9 +6,9 @@ const MovieList = ({movies}) => {
     <div>
       <ul>
         { 
-          movies.map((movie) => {
-            return <MovieItem movie={movie} />
-          })
+          (Array.isArray(movies) && movies.length > 0) ? movies.map((movie, i) => {
+            return <MovieItem key={i} movie={movie} />
+          }) : 'no movies'
         }
       </ul>
     </div>
